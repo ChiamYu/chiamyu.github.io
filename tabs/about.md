@@ -20,7 +20,7 @@ A constant traveler at the intersection of engineering and science.
     - The website was made for sharing simulation results. The simulation + experimental results are published with an awesome team of scientists. [See paper](https://doi.org/10.1016/j.ymben.2017.06.008)
 
 
-**Grad school lab website:** [link](http://optforceanalysis.appspot.com/index.html)
+**Grad school lab website:** [link](http://www.maranasgroup.com/)
     - This was created when I was learning the Bootstrap Framework. Currently, it is actively maintained by the lab members. 
 
 
