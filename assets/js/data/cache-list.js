@@ -2,76 +2,31 @@
 layout: compress
 
 # The list to be cached by PWA
-# Chirpy v2.2
-# https://github.com/cotes2020/jekyll-theme-chirpy
-# © 2020 Cotes Chung
-# MIT Licensed
 ---
 
 const include = [
+  /* --- CSS --- */
 
-  /*--- CSS ---*/
+  '{{ "/assets/css/style.css" | relative_url }}',
 
-  '{{ "/assets/css/home.css" | relative_url }}',
-  '{{ "/assets/css/categories.css" | relative_url }}',
-  '{{ "/assets/css/tags.css" | relative_url }}',
-  '{{ "/assets/css/archives.css" | relative_url }}',
-  '{{ "/assets/css/page.css" | relative_url }}',
-  '{{ "/assets/css/post.css" | relative_url }}',
-  '{{ "/assets/css/category-tag.css" | relative_url }}',
-  '{{ "/assets/css/lib/bootstrap-toc.min.css" | relative_url }}',
+  /* --- Javascripts --- */
+  '{{ "/assets/js/dist/home.min.js" | relative_url }}',
+  '{{ "/assets/js/dist/page.min.js" | relative_url }}',
+  '{{ "/assets/js/dist/post.min.js" | relative_url }}',
+  '{{ "/assets/js/dist/categories.min.js" | relative_url }}',
+  '{{ "/assets/js/data/search.json" | relative_url }}',
+  '{{ "/app.js" | relative_url }}',
+  '{{ "/sw.js" | relative_url }}',
 
-  /*--- Javascripts ---*/
-
-  '{{ "/assets/js/home.min.js" | relative_url }}',
-  '{{ "/assets/js/page.min.js" | relative_url }}',
-  '{{ "/assets/js/post.min.js" | relative_url }}',
-
-  /*--- HTML ---*/
-
-  /* Tabs */
-  {% for tab in site.data.tabs %}
-    {% capture item %}
-      {%- unless tab.name == 'Home' -%}
-        /tabs/{{ tab.name | downcase }}
-      {%- endunless -%}
-      {{- "/" -}}
-    {% endcapture %}
-    '{{ item | relative_url }}',
+  /* --- HTML --- */
+  '{{ "/index.html" | relative_url }}',
+  '{{ "/404.html" | relative_url }}',
+  {% for tab in site.tabs %}
+    '{{ tab.url }}',
   {% endfor %}
 
-  /* The posts of first Home page and recent update list */
-  {% assign post_list = "" | split: "" %}
-  {% assign sum = 0 %}
 
-  {% for post in site.posts %}
-    {% assign post_list = post_list | push: post.url %}
-    {% assign sum = sum | plus: 1 %}
-    {% if sum >= site.paginate %}
-      {% break %}
-    {% endif %}
-  {% endfor %}
-
-  {% include update-list.html %}
-  {% for item in update_list %}
-    {% assign url = item | split: "::" | last | prepend: "/posts/" | append: "/" %}
-    {% assign post_list = post_list | push: url %}
-  {% endfor %}
-
-  {% assign post_list = post_list | uniq %}
-
-  {% for url in post_list %}
-    '{{ url }}',
-  {% endfor %}
-
-  /* Trending tags */
-  {% include trending-tags.html %}
-  {% for tag in trending_tags %}
-    {% capture tag_url %}/tags/{{ tag | downcase | url_encode }}/{% endcapture %}
-    '{{ tag_url | relative_url }}',
-  {% endfor %}
-
-  /*--- Icons ---*/
+  /* --- Icons --- */
 
   {%- capture icon_url -%}
     {{ "/assets/img/favicons" | relative_url }}
@@ -94,18 +49,13 @@ const include = [
   '{{ icon_url }}/favicon-16x16.png',
   '{{ icon_url }}/ms-icon-144x144.png',
   '{{ icon_url }}/manifest.json',
-  '{{ icon_url }}/browserconfig.xml',
-
-  /*--- Others ---*/
-
-  '{{ "/assets/js/data/search.json" | relative_url }}',
-  '{{ "/404.html" | relative_url }}',
-
-  '{{ "/app.js" | relative_url }}',
-  '{{ "/sw.js" | relative_url }}'
+  '{{ icon_url }}/browserconfig.xml'
 ];
 
 const exclude = [
-  '/assets/js/data/pv-cache.js',
+  {%- if site.google_analytics.pv.proxy_url and site.google_analytics.pv.enabled -%}
+    '{{ site.google_analytics.pv.proxy_url }}',
+  {%- endif -%}
+  '/assets/js/data/pageviews.json',
   '/img.shields.io/'
 ];
